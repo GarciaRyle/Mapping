@@ -1,0 +1,35 @@
+{
+    "-LFudz5mdrjrGEyrBkuD": {
+        "ID": "-LFudz5mdrjrGEyrBkuD",
+        "bus_company": "Jasper Jean Liner",
+        "d_name": "YvesEdward O. Andigan",
+        "filename": "722",
+        "latitude": 14.428078,
+        "longitude": 121.0188859,
+        "plate_number": "ABC 1234",
+        "route": "Ayala - Dasmariñas",
+        "seats": 4
+    },
+    "-LFuePLMOCotvcNTOBQJ": {
+        "ID": "-LFuePLMOCotvcNTOBQJ",
+        "bus_company": "Don Aldrin",
+        "d_name": "Shaun C. Calagos",
+        "filename": "12645",
+        "latitude": 14.423886,
+        "longitude": 121.0313413,
+        "plate_number": "QWE 4321",
+        "route": "Mendez - Ayala",
+        "seats": 5
+    },
+    "-LFufGtb58kCoMJ2E0TY": {
+        "ID": "-LFufGtb58kCoMJ2E0TY",
+        "bus_company": "Erjohn & Almark Transit",
+        "d_name": "Nicolai A. Gianan",
+        "filename": "289",
+        "latitude": 14.417144,
+        "longitude": 121.0396283,
+        "plate_number": "TYU 562",
+        "route": "Trece Martires - Ayala",
+        "seats": 6
+    }
+}

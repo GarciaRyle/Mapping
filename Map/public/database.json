@@ -1,0 +1,24 @@
+[{
+        "ID": "-LC3KdRfZkxp5qjb3Uda",
+        "bus_company": "Jam",
+        "d_name": "LUIS N. Banocmoc",
+        "filename": "JPEG_20180509_175826_174862015323896356.jpg",
+        "latitude": 14.4269381,
+        "longitude": 121.0241467,
+        "plate_number": "NOH 392",
+        "route": "Ayala - Trece Martires",
+        "seats": 7
+    },
+
+    {
+        "ID": "-LByoSRcoEdmYJedJkKQ",
+        "bus_company": "Don Aldrin",
+        "d_name": "Kiel R. Lago",
+        "filename": "JPEG_20180508_161515_4458923689148978664.jpg",
+        "latitude": 14.4161508,
+        "longitude": 121.0387896,
+        "plate_number": "JSH 2727",
+        "route": "Cavite City - Cubao",
+        "seats": 8
+    }
+]
