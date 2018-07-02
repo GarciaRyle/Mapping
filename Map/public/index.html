@@ -54,7 +54,7 @@
     var lat, lng;
 
     function initMap() {
-      var infowindow = new google.maps.InfoWindow();
+
       var options = {
         zoom: 17,
         center: {
@@ -70,8 +70,46 @@
 
       // Child_Added
       var locationsRef = firebase.database().ref("User Info");
-      var bounds = new google.maps.LatLngBounds();
       locationsRef.on('child_added', function (snapshot) {
+        var data = snapshot.val();
+        // console.log(data);
+
+
+        var marker = new google.maps.Marker({
+          position: {
+            lat: parseFloat(data.latitude),
+            lng: parseFloat(data.longitude)
+          },
+          map: map,
+          icon: {
+            url: 'busA.png',
+            scaledSize: new google.maps.Size(35, 25)
+          }
+        });
+
+        marker.id = "sample";
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: "Driver: " + data.d_name + "<br>" + "Plate Number: " + data.plate_number
+        });
+        infoWindow.open(map, marker);
+      });
+
+
+
+
+
+      // Value
+    
+      locationsRef.on('value', function (snapshot) {
+        var data = snapshot.val();
+        // console.log(data);
+
+      });
+
+      // Child_Changed
+    
+      locationsRef.on('child_changed', function (snapshot) {
         var data = snapshot.val();
         console.log(data);
 
@@ -87,40 +125,13 @@
             scaledSize: new google.maps.Size(35, 25)
           }
         });
-        bounds.extend(marker.getPosition());
-        marker.addListener('click', (function (data) {
-          return function (e) {
-            infowindow.setContent("Driver: " + data.d_name + "<br>" + "Plate Number: " + data.plate_number );
-            infowindow.open(map, this);
-          }
-        }(data)));
-        map.fitBounds(bounds);
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: "Driver: " + data.d_name + "<br>" + "Plate Number: " + data.plate_number
+        });
+        infoWindow.open(map, marker);
       });
     }
-
-
-
-
-      // Value
-      var locationsRef = firebase.database().ref("User Info");
-      locationsRef.on('value', function (snapshot) {
-        var data = snapshot.val();
-        // console.log(data);
-
-        new google.maps.Marker({
-          position: {
-            lat: parseFloat(data.latitude),
-            lng: parseFloat(data.longitude)
-          },
-          map: map,
-          icon: {
-            url: 'busA.png',
-            scaledSize: new google.maps.Size(35, 20)
-          },
-          content: "Parking 1!"
-        })
-      });
-    
   </script>
 
   </script>
