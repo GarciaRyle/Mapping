@@ -50,12 +50,14 @@
 
   <div id="map"></div>
   <script>
-    var map, infoWindow;
-    var lat, lng;
+   
+  var driversMap = {};
+  var markersMap = {};
+  var infoWindowMap = {};
 
-    function initMap() {
-
-      var options = {
+  function initMap(){
+     
+    var options = {
         zoom: 17,
         center: {
           lat: 14.4169,
@@ -66,76 +68,62 @@
 
       // New map
       var map = new google.maps.Map(document.getElementById('map'), options);
+     
+     var arr=[];
+     var database = firebase.database().ref().child('User Info');
+     database.on("child_added",function(snapshot){
+        var childKey = snapshot.key;
+        var childData = snapshot.val();
+        driversMap[childKey] = childData;
+        var latlng = {lat:parseFloat(driversMap[childKey].latitude), lng: parseFloat(driversMap[childKey].longitude)};
 
-
-      // Child_Added
-      var locationsRef = firebase.database().ref("User Info");
-      locationsRef.on('child_added', function (snapshot) {
-        var data = snapshot.val();
-        // console.log(data);
-
-
-        var marker = new google.maps.Marker({
-          position: {
-            lat: parseFloat(data.latitude),
-            lng: parseFloat(data.longitude)
-          },
-          map: map,
-          icon: {
+      var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        icon: {
             url: 'busA.png',
             scaledSize: new google.maps.Size(35, 25)
-          }
+          },  
+        id: childKey
+      });
+      markersMap[marker.id] = marker;
+      var infoWindow = new google.maps.InfoWindow({
+        content: "Driver: " + childData.d_name + "<br>" + "Plate Number: " + childData.plate_number,
+        id: childKey
         });
-
-        marker.id = "sample";
-
-        var infoWindow = new google.maps.InfoWindow({
-          content: "Driver: " + data.d_name + "<br>" + "Plate Number: " + data.plate_number
-        });
+        infoWindowMap[infoWindow.id] = infoWindow;
         infoWindow.open(map, marker);
-      });
+     });
+
+      database.on("child_changed",function(snapshot){
+        var childData = snapshot.val();
+        console.log(childData);
+        var childKey = snapshot.key;
+        if(childKey in driversMap === childKey in markersMap)
+        {
+        delete driversMap[childKey];
+        driversMap[childKey] = childData;
+        var latlng = {lat:parseFloat(driversMap[childKey].latitude), lng: 
+          parseFloat(driversMap[childKey].longitude)};
+        markersMap[childKey].setPosition(latlng);  
+           }
 
 
+          infoWindowMap[childKey].setContent("Driver: " + childData.d_name + "<br>" + "Plate Number: " + childData.plate_number);
+          infoWindowMap[childKey].open(map,markersMap[childKey]);
 
-
-
-      // Value
-    
-      locationsRef.on('value', function (snapshot) {
-        var data = snapshot.val();
-        // console.log(data);
-
-      });
-
-      // Child_Changed
-    
-      locationsRef.on('child_changed', function (snapshot) {
-        var data = snapshot.val();
-        console.log(data);
-
-
-        var marker = new google.maps.Marker({
-          position: {
-            lat: parseFloat(data.latitude),
-            lng: parseFloat(data.longitude)
-          },
-          map: map,
-          icon: {
-            url: 'busA.png',
-            scaledSize: new google.maps.Size(35, 25)
-          }
         });
+      
 
-        var infoWindow = new google.maps.InfoWindow({
-          content: "Driver: " + data.d_name + "<br>" + "Plate Number: " + data.plate_number
-        });
-        infoWindow.open(map, marker);
-      });
-    }
+        
+
+   }
+   
   </script>
 
-  </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArGWAyFuQ-Q7qxGMSwddBDnmxycdce5L8&libraries=visualization&callback=initMap">
+ 
+  <script
+  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArGWAyFuQ-Q7qxGMSwddBDnmxycdce5L8&libraries=visualization&callback=initMap">
   </script>
 </body>
 
